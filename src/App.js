@@ -56,7 +56,6 @@ const Wrapper = styled.div`
   width: 90%;
   height: 86%;
   display: flex;
-  /* align-items: center; */
   justify-content: center;
   flex-direction: column;
 `;
@@ -74,12 +73,11 @@ const Title = styled.text`
   font-size: 40px;
 `;
 const WrapperToDoList = styled.div`
-  background-color: white;
+  background-color: whitesmoke;
   width: 100%;
   height: 80%;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
   flex-direction: column;
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -99,20 +97,20 @@ const WrapperInputTodo = styled.div`
   flex: 10;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  box-shadow: 
 `;
 const InputText = styled.input`
   border: 1px solid #ccc;
   width: 100%;
   height: 100%;
   padding: 12px 20px;
-  /* margin: 8px 0; */
   box-sizing: border-box;
   font-size: 15px;
   font-weight: normal;
   border: 1px solid #ccc;
   border-radius: 4px 0px 0px 4px;
   outline: none;
+  font-family: "Open Sans";
 `;
 const WrapperButtonTodo = styled.div`
   display: flex;
@@ -187,6 +185,7 @@ const WrapperListItem = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  border-bottom: 1px black;
 `;
 const WrapperRim = styled.div`
   display: flex;
@@ -240,8 +239,6 @@ const WrapperContentTodo = styled.div`
   flex: 85;
   align-items: center;
   padding-left: 16px;
-  /* justify-content:center; */
-  /* background-color: whitesmoke; */
 `;
 const TextContent = styled.text`
   font-family: "Open Sans";
@@ -255,7 +252,6 @@ const WrapperButtonDelete = styled.div`
   flex: 15;
   align-items: center;
   justify-content: center;
-  
 `;
 const ButtonDelete = styled.button`
   display: flex;
@@ -264,17 +260,26 @@ const ButtonDelete = styled.button`
   border-radius: 0px 4px 4px 0px;
   justify-content: center;
   align-items: center;
+  background-color: transparent
 `;
 const TextDelete = styled.span`
   font-size: 24px;
   font-weight: normal;
-  color: darkgray;
+  color: black;
   display: flex;
 `;
 class App extends Component {
   constructor(props) {
     super(props);
     this.renderTodoItem = this.renderTodoItem.bind(this);
+  }
+
+  onClickAdd = () => {
+    console.log("DucPushAdd")
+  }
+
+  onClickDelete = () => {
+    console.log("DucPushDel")
   }
 
   renderTodoItem() {
@@ -308,7 +313,7 @@ class App extends Component {
                 <InputText />
               </WrapperInputTodo>
               <WrapperButtonTodo>
-                <ButtonMakeTodo>
+                <ButtonMakeTodo onClick={() => this.onClickAdd()}>
                   <TextMake>
                     <IoIosAdd />
                   </TextMake>

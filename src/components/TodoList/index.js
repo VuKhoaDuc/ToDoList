@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { IoIosAdd, IoIosTrash } from "react-icons/io";
+import PropTypes from 'prop-types';
+
 
 const BackgroundGradient = styled.div`
   display: flex;
@@ -97,7 +99,6 @@ const WrapperInputTodo = styled.div`
   flex: 10;
   align-items: center;
   justify-content: center;
-  box-shadow: 
 `;
 const InputText = styled.input`
   border: 1px solid #ccc;
@@ -268,7 +269,9 @@ const TextDelete = styled.span`
   color: black;
   display: flex;
 `;
-class App extends Component {
+
+// Component
+class TodoList extends Component {
   constructor(props) {
     super(props);
     this.renderTodoItem = this.renderTodoItem.bind(this);
@@ -328,4 +331,6 @@ class App extends Component {
   }
 }
 
-export default App;
+TodoList.PropTypes = {};
+
+export default TodoList;

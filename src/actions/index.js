@@ -1,27 +1,41 @@
-let nextTodoId = 0 
-export const addTodo = (text, number) => ({
-    type: 'ADD_TODO',
-    id: nextTodoId++,
-    text,
-    number
-})
+
+
 
 export const setVisibilityFilter = filter => ({
-    type: 'SET_VISIBILITY_FILTER',
-    filter
+  type: "SET_VISIBILITY_FILTER",
+  filter
+});
+
+export const toggle= id => ({
+  type: "TOGGLE",
+  id
+});
+
+
+export const resetState = () => ({
+    type: "RESET_STATE",
 })
 
-export const toggleTodo = id => ({
-    type: 'TOGGLE_TODO',
-    id
+export const typeChangeInput = waiting => ({
+  type: "CHANGE_INPUT",
+  waiting
 })
 
-export const addTodoSuccess = () => ({
-    type: 'ADD_TODO_SUCCESS'
-})
+export const getDataBackend = nickname => ({
+  type: "GET_DATA_BACKEND",
+  nickname
+});
+export const getDataBackendSuccess = data => ({
+  type: "GET_DATA_BACKEND_SUCCESS",
+  data
+});
+export const getDataBackendFailure = data => ({
+  type: "GET_DATA_BACKEND_FAILURE",
+  data
+});
 
 export const VisibilityFilters = {
-    SHOW_ALL: 'SHOW_ALL',
-    SHOW_COMPLETE: 'SHOW_COMPLETE',
-    SHOW_ACTIVE: 'SHOW_ACTIVE'
-}
+  SHOW_ALL: "SHOW_ALL",
+  SHOW_COMPLETE: "SHOW_COMPLETE",
+  SHOW_ACTIVE: "SHOW_ACTIVE"
+};

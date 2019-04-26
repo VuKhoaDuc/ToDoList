@@ -1,6 +1,3 @@
-
-
-
 export const setVisibilityFilter = filter => ({
   type: "SET_VISIBILITY_FILTER",
   filter
@@ -16,9 +13,14 @@ export const resetState = () => ({
     type: "RESET_STATE",
 })
 
-export const typeChangeInput = waiting => ({
+export const typeChangeInput = payload => ({
   type: "CHANGE_INPUT",
-  waiting
+  payload
+})
+
+export const resetInput = payload => ({
+  type: "RESET_INPUT",
+  payload
 })
 
 export const getDataBackend = nickname => ({

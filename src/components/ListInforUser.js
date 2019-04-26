@@ -1,32 +1,38 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-
 export default class ListInforUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       notifiled: "Bấm lấy dữ liệu để hiển thị thông tin về nick name"
-    }
+    };
   }
 
   render() {
     console.log("props: ", this.props);
-    if (this.props.infor.isSuccess !== true) {
-      return (<span>{this.state.notifiled}</span>);
-    } else if (this.props.infor.isHaveError === true) {
-      return (<span>{`Error: ${this.props.infor.error}`}</span>)
-    } else if (this.props.infor.user === undefined) {
-      return (<span>Chưa có thông tin nick name, vui lòng nhập nick name khác!</span>)
+    const { infor, statusInput } = this.props;
+    const { isSuccess, user, error } = infor;
+
+    if (statusInput.isChanging) {
+      return <span>Cho Nhap Du Lieu</span>;
     }
+    if (this.props.infor.isSuccess !== true) {
+      return <span>{this.state.notifiled}</span>;
+    } else if (error) {
+      return <span>{`Error: ${error}`}</span>;
+    } else if (isSuccess && !user.fullName) {
+      return (
+        <span>Chưa có thông tin nick name, vui lòng nhập nick name khác!</span>
+      );
+    } 
     return (
       <ul>
-        <li>{`Họ và tên: ${this.props.infor.user.fullName}`}</li>
-        <li>{`Giới tính: ${this.props.infor.user.gender}`}</li>
-        <li>{`Email: ${this.props.infor.user.email}`}</li>
+        <li>{`Họ và tên: ${user.fullName}`}</li>
+        <li>{`Giới tính: ${user.gender}`}</li>
+        <li>{`Email: ${user.email}`}</li>
       </ul>
     );
-   
   }
 }
 

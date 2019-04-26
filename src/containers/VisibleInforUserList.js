@@ -17,7 +17,8 @@ const getVisibleInforUserList = (infor, filter) => {
 };
 
 const mapStateToProps = state => ({
-  infor: getVisibleInforUserList(state.infor, state.visibilityFilter)
+  infor: getVisibleInforUserList(state.infor, state.visibilityFilter),
+  statusInput: state.statusInput,
 });
 
 const mapDispatchToProps = dispatch => ({

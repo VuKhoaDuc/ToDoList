@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getDataBackend, typeChangeInput } from "../actions";
+import { getDataBackend, typeChangeInput, resetInput, resetState } from "../actions";
 
 const AddNickname = ({ dispatch }) => {
   let inputNode;
@@ -17,7 +17,11 @@ const AddNickname = ({ dispatch }) => {
           placeholder="Nick name"
           onChange={() => {
             dispatch(typeChangeInput());
+            dispatch(resetState());
           }}
+          onBlur={() =>
+            dispatch(resetInput())
+          }
         />
       </form>
 

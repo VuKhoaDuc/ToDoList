@@ -1,5 +1,32 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const WrapperContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+`;
+const TextWarning = styled.span`
+  font-size: 14px;
+  color: #e50914;
+  margin-top: 20px;
+`;
+const WrapperNameProduct = styled.div`
+  width: 40%;
+  /* align-items: center; */
+  display: flex;
+  margin-top: 30px;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+const NameProduct = styled.span`
+  font-size: 15px;
+  font-weight: normal;
+  color: #000000;
+  margin-top: 12px;
+`;
 
 export default class ListInforUser extends Component {
   constructor(props) {
@@ -10,31 +37,49 @@ export default class ListInforUser extends Component {
   }
 
   render() {
-    console.log("props: ", this.props);
     const { infor, statusInput } = this.props;
     const { isSuccess, user, error } = infor;
 
     if (statusInput.isChanging) {
-      return <span>Cho Nhap Du Lieu</span>;
+      return (
+        <WrapperContent>
+          <TextWarning>Chờ nhập dữ liệu...</TextWarning>
+        </WrapperContent>
+      );
     }
     if (this.props.infor.isSuccess !== true) {
-      return <span>{this.state.notifiled}</span>;
+      return (
+        <WrapperContent>
+          <TextWarning>{this.state.notifiled}</TextWarning>
+        </WrapperContent>
+      );
     } else if (error) {
-      return <span>{`Error: ${error}`}</span>;
+      return (
+        <WrapperContent>
+          <TextWarning>{`Error: ${error}`}</TextWarning>
+        </WrapperContent>
+      );
     } else if (isSuccess && !user.fullName) {
       return (
-        <span>Chưa có thông tin nick name, vui lòng nhập nick name khác!</span>
+        <WrapperContent>
+          <TextWarning>
+            Chưa có thông tin nick name, vui lòng nhập nick name khác!
+          </TextWarning>
+        </WrapperContent>
       );
-    } 
+    }
     return (
-      <ul>
-        <li>{`Họ và tên: ${user.fullName}`}</li>
-        <li>{`Giới tính: ${user.gender}`}</li>
-        <li>{`Email: ${user.email}`}</li>
-      </ul>
+      <WrapperContent>
+        <WrapperNameProduct>
+          <NameProduct>{`Họ và tên: ${user.fullName}`}</NameProduct>
+          <NameProduct>{`Giới tính: ${user.gender}`}</NameProduct>
+          <NameProduct>{`Email: ${user.email}`}</NameProduct>
+        </WrapperNameProduct>
+      </WrapperContent>
     );
   }
 }
+
 
 ListInforUser.propTypes = {
   infor: PropTypes.arrayOf(

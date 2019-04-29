@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import styled from "styled-components";
 
 const WrapperContent = styled.div`
@@ -28,7 +29,19 @@ const NameProduct = styled.span`
   margin-top: 12px;
 `;
 
-export default class ListInforUser extends Component {
+
+const mapStateToProps = state => ({
+  infor: state.infor,
+  statusInput: state.statusInput,
+});
+
+const mapDispatchToProps = dispatch => ({
+
+});
+
+
+
+class ListInforUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -89,5 +102,10 @@ ListInforUser.propTypes = {
       text: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
-  toggle: PropTypes.func.isRequired
+  // toggle: PropTypes.func.isRequired
 };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ListInforUser);

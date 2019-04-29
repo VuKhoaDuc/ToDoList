@@ -104,12 +104,21 @@ const TextAdd = styled.span`
   display: flex;
 `;
 
+const mapDispatchToProps = dispatch => ({
+  getDataBackend,
+  typeChangeInput,
+  resetState,
+  resetInput
+
+});
+
 const  AddNickName = ({ dispatch }) => {
 
     let inputNode; 
 
     const onClickGetData = nickname => {
-      dispatch(getDataBackend(nickname));
+      // dispatch(getDataBackend(nickname));
+      this.props.getDataBackend(nickname);
     }
 
     return (
@@ -123,10 +132,10 @@ const  AddNickName = ({ dispatch }) => {
             ref={node => (inputNode = node)}
             placeholder="Nhập tên"
             onChange={() => {
-              dispatch(typeChangeInput());
-              dispatch(resetState())
+              this.props.typeChangeInput();
+              this.props.resetState();
             }}
-            onBlur={() => dispatch(resetInput())}
+            onBlur={() => this.props.resetInput()}
 
           />
         </Wrapper>
@@ -140,4 +149,4 @@ const  AddNickName = ({ dispatch }) => {
 
 }
 
-export default connect()(AddNickName);
+export default connect(mapDispatchToProps)(AddNickName);

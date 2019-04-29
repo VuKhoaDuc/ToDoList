@@ -35,12 +35,6 @@ const mapStateToProps = state => ({
   statusInput: state.statusInput,
 });
 
-const mapDispatchToProps = dispatch => ({
-
-});
-
-
-
 class ListInforUser extends Component {
   constructor(props) {
     super(props);
@@ -107,5 +101,4 @@ ListInforUser.propTypes = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(ListInforUser);

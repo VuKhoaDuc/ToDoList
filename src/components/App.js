@@ -1,11 +1,11 @@
 import React from "react";
 import AddNickname from "../containers/AddNickname";
-import ListInforUser from "../containers/VisibleInforUserList";
+// import ListInforUser from "../containers/VisibleInforUserList";
 
 const App = () => (
   <div>
     <AddNickname />
-    <ListInforUser />
+    {/* <ListInforUser /> */}
   </div>
 );
 

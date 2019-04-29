@@ -9,15 +9,13 @@ import rootReducer from "./store/rootReducer";
 // import customMiddleware from "./middleware/customMiddleware";
 import rootEpic from "./store/rootEpic";
 
-const epicMiddleware = createEpicMiddleware();
+const epicMiddleware = createEpicMiddleware(rootEpic);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware( epicMiddleware)),
+  composeEnhancers(applyMiddleware(epicMiddleware)),
 );
-
-epicMiddleware.run(rootEpic);
 
 render(
   <Provider store={store}>

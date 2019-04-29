@@ -1,4 +1,5 @@
-
+import { mergeMap } from 'rxjs/operators';
+import { ofType } from 'redux-observable';
 import { getDataUser } from "../../services/user-service";
 
 export const types = {

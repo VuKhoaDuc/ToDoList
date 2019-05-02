@@ -1,7 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getDataBackend, typeChangeInput, resetInput, resetState } from "../actions";
+import { bindActionCreators } from "redux";
+import { actions as tempActions } from "../store/modules/actionsDuck";
+import { actions as userAction } from "../store/modules/usersDuck";
 import styled from "styled-components";
+import ListInforUser from "../components/ListInforUser";
+
 
 const Container = styled.div`
   width: 100%;
@@ -105,22 +109,38 @@ const TextAdd = styled.span`
 `;
 
 const mapDispatchToProps = dispatch => ({
-  getDataBackend,
-  typeChangeInput,
-  resetState,
-  resetInput
-
+  actions: bindActionCreators({ ...tempActions, ...userAction }, dispatch)
 });
 
-const  AddNickName = ({ dispatch }) => {
 
-    let inputNode; 
+class AddNickName extends Component {
+  constructor(props) {
+    super(props);
 
-    const onClickGetData = nickname => {
-      // dispatch(getDataBackend(nickname));
-      this.props.getDataBackend(nickname);
-    }
+    this.state = {
+      inputNode: ""
+    };
+  }
 
+  onClickGetData = () => {
+
+    this.props.actions.getDataBackend(this.state.inputNode);
+  };
+
+  onChange = event => {
+    // dispatch(getDataBackend(nickname));
+    this.setState({
+      inputNode: event.target.value
+    })
+    this.props.actions.typeChangeInput(event.target.value);
+    this.props.actions.resetState();
+    // console.log("dddd", event.target.value)
+  };
+
+  onBlur = () => {
+    this.props.actions.resetInput();
+  };
+  render() {
     return (
       <Container>
         <WrapperTitle>
@@ -129,24 +149,26 @@ const  AddNickName = ({ dispatch }) => {
         <Wrapper>
           <Label>Nickname</Label>
           <InputText
-            ref={node => (inputNode = node)}
+            // ref={node => (this.state.inputNode = node)}
             placeholder="Nhập tên"
-            onChange={() => {
-              this.props.typeChangeInput();
-              this.props.resetState();
-            }}
-            onBlur={() => this.props.resetInput()}
-
+           
+            onChange={this.onChange}
+            onBlur={() => this.onBlur}
           />
         </Wrapper>
         <ComponentButton>
-          <Button onClick={() => onClickGetData(inputNode.value)}>
+          <Button onClick={() => this.onClickGetData()}>
             <TextAdd>Tìm kiếm</TextAdd>
           </Button>
         </ComponentButton>
+
+        <ListInforUser />
       </Container>
     );
-
+  }
 }
 
-export default connect(mapDispatchToProps)(AddNickName);
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddNickName);

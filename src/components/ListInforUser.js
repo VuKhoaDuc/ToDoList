@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { getInforUser } from "../store/modules/usersDuck";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import _ from "lodash";
 
 const WrapperContent = styled.div`
   display: flex;
@@ -29,10 +31,9 @@ const NameProduct = styled.span`
   margin-top: 12px;
 `;
 
-
 const mapStateToProps = state => ({
-  infor: state.infor,
-  statusInput: state.statusInput,
+  user: getInforUser(state)
+  // action: state.statusInput
 });
 
 class ListInforUser extends Component {
@@ -41,52 +42,69 @@ class ListInforUser extends Component {
     this.state = {
       notifiled: "Bấm lấy dữ liệu để hiển thị thông tin về nick name"
     };
+    this.renderInfor = this.renderInfor.bind(this);
+    this.renderNoData = this.renderNoData.bind(this);
   }
 
-  render() {
-    const { infor, statusInput } = this.props;
-    const { isSuccess, user, error } = infor;
-
-    if (statusInput.isChanging) {
-      return (
-        <WrapperContent>
-          <TextWarning>Chờ nhập dữ liệu...</TextWarning>
-        </WrapperContent>
-      );
-    }
-    if (this.props.infor.isSuccess !== true) {
-      return (
-        <WrapperContent>
-          <TextWarning>{this.state.notifiled}</TextWarning>
-        </WrapperContent>
-      );
-    } else if (error) {
-      return (
-        <WrapperContent>
-          <TextWarning>{`Error: ${error}`}</TextWarning>
-        </WrapperContent>
-      );
-    } else if (isSuccess && !user.fullName) {
-      return (
-        <WrapperContent>
-          <TextWarning>
-            Chưa có thông tin nick name, vui lòng nhập nick name khác!
-          </TextWarning>
-        </WrapperContent>
-      );
-    }
+  renderInfor(user) {
     return (
       <WrapperContent>
         <WrapperNameProduct>
-          <NameProduct>{`Họ và tên: ${user.fullName}`}</NameProduct>
-          <NameProduct>{`Giới tính: ${user.gender}`}</NameProduct>
-          <NameProduct>{`Email: ${user.email}`}</NameProduct>
+          <NameProduct>Họ và tên: {user.fullName}</NameProduct>
+          <NameProduct>Giới tính: {user.gender}</NameProduct>
+          <NameProduct>Email: {user.email}</NameProduct>
         </WrapperNameProduct>
       </WrapperContent>
     );
   }
-}
+  
+  renderNoData(){
+    return (
+          <WrapperContent>
+            <TextWarning>
+              Vui lòng nhập nick name để lấy dữ liệu !!!
+            </TextWarning>
+          </WrapperContent>
+        );
+  }
 
+  render() {
+    // const { user, action } = this.props;
+    const userInfor = _.get(this.props, "user") || {};
+    // const { isSuccess, users, error } = user;
+    // console.log("dadaddadadadad", user);
+
+    // if (action.isChanging) {
+    //   return (
+    //     <WrapperContent>
+    //       <TextWarning>Chờ nhập dữ liệu...</TextWarning>
+    //     </WrapperContent>
+    //   );
+    // }
+    // if (this.props.infor.isSuccess !== true) {
+    //   return (
+    //     <WrapperContent>
+    //       <TextWarning>{this.state.notifiled}</TextWarning>
+    //     </WrapperContent>
+    //   );
+    // } else if (error) {
+    //   return (
+    //     <WrapperContent>
+    //       <TextWarning>{`Error: ${error}`}</TextWarning>
+    //     </WrapperContent>
+    //   );
+    // } else if (isSuccess && !userInfor.inforUser.fullName) {
+    //   return (
+    //     <WrapperContent>
+    //       <TextWarning>
+    //         Chưa có thông tin nick name, vui lòng nhập nick name khác!
+    //       </TextWarning>
+    //     </WrapperContent>
+    //   );
+    // }
+    return !_.isEmpty(userInfor) ? this.renderInfor(userInfor) : this.renderNoData();
+  }
+}
 
 ListInforUser.propTypes = {
   infor: PropTypes.arrayOf(
@@ -95,10 +113,8 @@ ListInforUser.propTypes = {
       completed: PropTypes.bool.isRequired,
       text: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired,
+  ).isRequired
   // toggle: PropTypes.func.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-)(ListInforUser);
+export default connect(mapStateToProps)(ListInforUser);

@@ -1,6 +1,8 @@
-import { mergeMap } from 'rxjs/operators';
-import { ofType } from 'redux-observable';
+import { mergeMap } from "rxjs/operators";
+import { ofType } from "redux-observable";
+import Imutable from "seamless-immutable";
 import { getDataUser } from "../../services/user-service";
+import _ from "lodash";
 
 export const types = {
   RESET_STATE: "RESET_STATE",
@@ -9,6 +11,9 @@ export const types = {
   GET_DATA_BACKEND_FAILURE: "GET_DATA_BACKEND_FAILURE"
 };
 // Selector
+export const getInforUser = state => {
+  return state.user.inforUser;
+};
 
 // Action Creators
 export const actions = {
@@ -18,37 +23,37 @@ export const actions = {
   }),
 
   getDataBackend: payload => ({
-    type: "GET_DATA_BACKEND_START",
+    type: types.GET_DATA_BACKEND_START,
     payload
   }),
   getDataBackendSuccess: payload => ({
-    type: "GET_DATA_BACKEND_SUCCESS",
+    type: types.GET_DATA_BACKEND_SUCCESS,
     payload
   }),
   getDataBackendFailure: payload => ({
-    type: "GET_DATA_BACKEND_FAILURE",
+    type: types.GET_DATA_BACKEND_FAILURE,
     payload
   })
 };
 
 // User Reducer
-export const userReducer = (state = {}, action) => {
+const defaultState = {
+  inforUser: []
+};
+export const userReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case "RESET_STATE": {
+    case types.RESET_STATE: {
       return {
         ...state,
         user: "Chờ nhập dữ liệu"
       };
     }
-    case "GET_DATA_BACKEND_SUCCESS":
-      console.log("mylog action in reducer: ", action);
-      return {
-        ...state,
-        user: action.data,
-        text: action.data.fullName,
-        isSuccess: true
-      };
-    case "GET_DATA_BACKEND_FAILURE":
+    case types.GET_DATA_BACKEND_SUCCESS:
+      const newInforUser = _.get(action, "payload") || [];
+      const newState = Imutable.setIn(state, ["inforUser"], newInforUser);
+      return newState;
+
+    case types.GET_DATA_BACKEND_FAILURE:
       console.log("mylog action fail in reducer: ", action);
       return {
         ...state,
@@ -63,9 +68,11 @@ export const userReducer = (state = {}, action) => {
 
 const getDataEpic = (action$, store) =>
   action$.ofType(types.GET_DATA_BACKEND_START).switchMap(
-    action =>
+    ({ payload }) =>
       new Promise(resolve => {
-        const dataGetDataUser = getDataUser(action.nickname);
+        const state = store.getState();
+        const nickname = _.get(state, "action.inputVal", "");
+        const dataGetDataUser = getDataUser(nickname);
         dataGetDataUser
           .then(data => {
             const dataPromise = data.additionalData.userData;
@@ -74,7 +81,6 @@ const getDataEpic = (action$, store) =>
           .catch(err => {
             resolve(actions.getDataBackendFailure(err));
           });
-        console.log("mylog data: ", dataGetDataUser);
         window.dataGetDataUser = dataGetDataUser;
       })
   );

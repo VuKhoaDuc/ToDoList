@@ -5,7 +5,6 @@ import AddNickname from "../containers/AddNickname";
 const App = () => (
   <div>
     <AddNickname />
-    {/* <ListInforUser /> */}
   </div>
 );
 
